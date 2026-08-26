@@ -225,7 +225,7 @@ button {
 ========================= */
 
 .summary-button {
-  height: 36px;
+  height: 46px;
   padding: 0 13px;
   border: 1px solid var(--border-light);
   border-radius: 6px;
@@ -601,13 +601,13 @@ button {
 ========================= */
 
 .folder-bar {
-  min-height: 62px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  padding: 10px 20px 10px 278px;
-  border-bottom: 1px solid var(--border);
-  background: var(--bg-secondary);
+min-height: 62px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    padding: 10px 20px 10px 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-secondary);
 }
 
 .folder-info {

@@ -13,10 +13,13 @@ import FileTree from "./components/FileTree";
 import DiffViewer from "./components/DiffViewer";
 import SummaryPanel from "./components/SummaryPanel";
 import GlobalSearch from "./components/GlobalSearch";
+import BuyMeACoffeeButton from "./components/BuyMeACoffeeButton";
 
 import { compareFolders } from "./utils/compareFolders";
 import { rescanFolder } from "./utils/rescanFolder";
-import buyMeACoffeeLogo from "./assets/buy-me-a-coffee.webp";
+;
+
+
 
 function App() {
   const [leftFolder, setLeftFolder] = useState(null);
@@ -127,18 +130,7 @@ function App() {
             {loading ? "Comparing..." : "Compare Folders"}
           </button>
 
-      <a
-  href="https://buymeacoffee.com/chrstphrvllrn"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="bmc-button"
-  title="Buy me a coffee"
->
-  <img
-    src={buyMeACoffeeLogo}
-    alt="Buy Me a Coffee"
-  />
-</a>
+         <BuyMeACoffeeButton />
         </div>
       </header>
 
