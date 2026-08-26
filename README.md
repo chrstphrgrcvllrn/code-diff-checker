@@ -186,6 +186,3 @@ npm run dev
 * [ ] Drag-and-drop folder selection
 * [ ] Git repository comparison support
 
-## License
-
-This project is available under the MIT License.
