@@ -1309,3 +1309,65 @@ button {
   height: 42px;
   stroke-width: 1.5;
 }
+
+.bmc-button {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  cursor:pointer;
+}
+
+.bmc-button img {
+  display: block;
+  width: auto;
+  height: 36px;
+}
+.bmc-button img {
+  display: block;
+}
+
+.bmc-button {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.bmc-button img {
+  display: block;
+  filter: grayscale(100%);
+  transition:
+    filter 0.3s ease,
+    transform 0.2s ease;
+  animation: bmc-float 3s ease-in-out infinite;
+}
+
+.bmc-button:hover {
+  transform: translateY(-2px);
+}
+
+.bmc-button:hover img {
+  filter: grayscale(0%);
+  transform: scale(1.04);
+  animation: none;
+}
+
+.bmc-button:active {
+  transform: translateY(0) scale(0.97);
+}
+
+@keyframes bmc-float {
+  0%,
+  85%,
+  100% {
+    transform: translateY(0);
+  }
+
+  90% {
+    transform: translateY(-3px) rotate(-2deg);
+  }
+
+  95% {
+    transform: translateY(0) rotate(2deg);
+  }
+}

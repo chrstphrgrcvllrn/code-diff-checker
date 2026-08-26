@@ -16,6 +16,7 @@ import GlobalSearch from "./components/GlobalSearch";
 
 import { compareFolders } from "./utils/compareFolders";
 import { rescanFolder } from "./utils/rescanFolder";
+import buyMeACoffeeLogo from "./assets/buy-me-a-coffee.webp";
 
 function App() {
   const [leftFolder, setLeftFolder] = useState(null);
@@ -126,7 +127,26 @@ function App() {
             {loading ? "Comparing..." : "Compare Folders"}
           </button>
 
-          <button
+      <a
+  href="https://buymeacoffee.com/chrstphrvllrn"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="bmc-button"
+  title="Buy me a coffee"
+>
+  <img
+    src={buyMeACoffeeLogo}
+    alt="Buy Me a Coffee"
+  />
+</a>
+        </div>
+      </header>
+
+      {error && <div className="error">{error}</div>}
+
+      <section className="folder-bar">
+
+            <button
             className="summary-button"
             disabled={!comparison}
             onClick={() => setShowSummary(!showSummary)}
@@ -143,12 +163,7 @@ function App() {
               </>
             )}
           </button>
-        </div>
-      </header>
 
-      {error && <div className="error">{error}</div>}
-
-      <section className="folder-bar">
   <div className="folder-info left">
     <FolderIcon className="folder-icon" />
     <div>
