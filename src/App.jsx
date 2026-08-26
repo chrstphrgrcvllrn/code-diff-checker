@@ -17,10 +17,6 @@ import BuyMeACoffeeButton from "./components/BuyMeACoffeeButton";
 
 import { compareFolders } from "./utils/compareFolders";
 import { rescanFolder } from "./utils/rescanFolder";
-;
-
-
-
 function App() {
   const [leftFolder, setLeftFolder] = useState(null);
   const [rightFolder, setRightFolder] = useState(null);
@@ -61,7 +57,7 @@ function App() {
       setComparison(data);
 
       const firstDifferent = data.files.find(
-        (file) => file.status !== "unchanged"
+        (file) => file.status !== "unchanged",
       );
 
       setSelectedFile(firstDifferent || data.files[0] || null);
@@ -130,60 +126,55 @@ function App() {
             {loading ? "Comparing..." : "Compare Folders"}
           </button>
 
-         <BuyMeACoffeeButton />
+          <BuyMeACoffeeButton />
         </div>
       </header>
 
       {error && <div className="error">{error}</div>}
 
       <section className="folder-bar">
+        <button
+          className="summary-button"
+          disabled={!comparison}
+          onClick={() => setShowSummary(!showSummary)}
+        >
+          {showSummary ? (
+            <>
+              <ArrowsRightLeftIcon className="icon" />
+              <span>Back to Diff</span>
+            </>
+          ) : (
+            <>
+              <ChartBarIcon className="icon" />
+              <span>Summary</span>
+            </>
+          )}
+        </button>
 
-            <button
-            className="summary-button"
-            disabled={!comparison}
-            onClick={() => setShowSummary(!showSummary)}
-          >
-            {showSummary ? (
-              <>
-                <ArrowsRightLeftIcon className="icon" />
-                <span>Back to Diff</span>
-              </>
-            ) : (
-              <>
-                <ChartBarIcon className="icon" />
-                <span>Summary</span>
-              </>
-            )}
-          </button>
+        <div className="folder-info left">
+          <FolderIcon className="folder-icon" />
+          <div>
+            <strong>{leftFolder?.name || "No left folder"}</strong>
+            <small>
+              {leftFolder
+                ? `${leftFolder.files.length} files`
+                : "Select a folder"}
+            </small>
+          </div>
+        </div>
 
-  <div className="folder-info left">
-    <FolderIcon className="folder-icon" />
-    <div>
-      <strong>
-        {leftFolder?.name || "No left folder"}
-      </strong>
-      <small>
-        {leftFolder
-          ? `${leftFolder.files.length} files`
-          : "Select a folder"}
-      </small>
-    </div>
-  </div>
-
-  <div className="folder-info right">
-    <FolderIcon className="folder-icon" />
-    <div>
-      <strong>
-        {rightFolder?.name || "No right folder"}
-      </strong>
-      <small>
-        {rightFolder
-          ? `${rightFolder.files.length} files`
-          : "Select a folder"}
-      </small>
-    </div>
-  </div>
-</section>
+        <div className="folder-info right">
+          <FolderIcon className="folder-icon" />
+          <div>
+            <strong>{rightFolder?.name || "No right folder"}</strong>
+            <small>
+              {rightFolder
+                ? `${rightFolder.files.length} files`
+                : "Select a folder"}
+            </small>
+          </div>
+        </div>
+      </section>
 
       <main className="workspace">
         <aside className="sidebar">
@@ -201,10 +192,7 @@ function App() {
           {showSummary && comparison ? (
             <SummaryPanel comparison={comparison} />
           ) : selectedFile ? (
-            <DiffViewer
-              file={selectedFile}
-              scrollTarget={scrollTarget}
-            />
+            <DiffViewer file={selectedFile} scrollTarget={scrollTarget} />
           ) : (
             <div className="empty-state">
               <div className="empty-icon">
@@ -214,8 +202,8 @@ function App() {
               <h2>Compare two folders</h2>
 
               <p>
-                Select your left and right project folders,
-                then click Compare Folders.
+                Select your left and right project folders, then click Compare
+                Folders.
               </p>
             </div>
           )}

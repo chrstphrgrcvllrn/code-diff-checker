@@ -2,7 +2,6 @@ import { useState } from "react";
 import buyMeACoffeeLogo from "../assets/buy-me-a-coffee.webp";
 
 function BuyMeACoffeeButton() {
-  const [ripple, setRipple] = useState(null);
 
 
   return (
@@ -12,21 +11,10 @@ function BuyMeACoffeeButton() {
       rel="noopener noreferrer"
       className="bmc-button"
       title="Buy me a coffee"
-      
     >
-      <img
-        src={buyMeACoffeeLogo}
-        alt="Buy Me a Coffee"
-      />
+      <img src={buyMeACoffeeLogo} alt="Buy Me a Coffee" />
 
-      {ripple && (
-        <span
-          className="bmc-ripple"
-          style={{
-           
-          }}
-        />
-      )}
+    
     </a>
   );
 }

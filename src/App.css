@@ -51,7 +51,6 @@
   background: var(--bg-main);
 }
 
-
 /* =========================
    LIGHT MODE
 ========================= */
@@ -96,7 +95,6 @@
   background: var(--bg-main);
 }
 
-
 /* =========================
    GLOBAL
 ========================= */
@@ -122,7 +120,6 @@ button {
   cursor: pointer;
 }
 
-
 /* =========================
    APP
 ========================= */
@@ -138,7 +135,6 @@ button {
   background: var(--bg-main);
   color: var(--text-primary);
 }
-
 
 /* =========================
    HEADER
@@ -175,7 +171,6 @@ button {
   gap: 8px;
   flex-wrap: wrap;
 }
-
 
 /* =========================
    BUTTONS
@@ -225,7 +220,6 @@ button {
   cursor: not-allowed;
 }
 
-
 /* =========================
    ERROR
 ========================= */
@@ -240,7 +234,6 @@ button {
 
   font-size: 12px;
 }
-
 
 /* =========================
    FOLDER BAR
@@ -308,7 +301,6 @@ button {
   background: #a78bfa;
 }
 
-
 /* =========================
    WORKSPACE
 ========================= */
@@ -320,7 +312,6 @@ button {
   display: grid;
   grid-template-columns: 280px minmax(0, 1fr);
 }
-
 
 /* =========================
    SIDEBAR
@@ -425,16 +416,10 @@ button {
   text-overflow: ellipsis;
   white-space: nowrap;
 
-  font-family:
-    ui-monospace,
-    SFMono-Regular,
-    Menlo,
-    Consolas,
-    monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   font-size: 11px;
 }
-
 
 /* =========================
    STATUS
@@ -485,7 +470,6 @@ button {
   font-size: 11px;
 }
 
-
 /* =========================
    VIEWER
 ========================= */
@@ -519,12 +503,7 @@ button {
 }
 
 .diff-toolbar strong {
-  font-family:
-    ui-monospace,
-    SFMono-Regular,
-    Menlo,
-    Consolas,
-    monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 
 .toolbar-status {
@@ -557,7 +536,6 @@ button {
   color: var(--text-muted);
   background: var(--border);
 }
-
 
 /* =========================
    CODE COLUMNS
@@ -618,12 +596,7 @@ button {
   border-collapse: collapse;
   table-layout: fixed;
 
-  font-family:
-    "SFMono-Regular",
-    Consolas,
-    "Liberation Mono",
-    Menlo,
-    monospace;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
 
   font-size: 12px;
   line-height: 1.55;
@@ -632,7 +605,6 @@ button {
 .code-scroll tr {
   height: 19px;
 }
-
 
 /* =========================
    LINE NUMBERS
@@ -651,7 +623,6 @@ button {
 
   border-right: 1px solid var(--border);
 }
-
 
 /* =========================
    CODE TEXT
@@ -674,7 +645,6 @@ button {
   color: var(--text-code);
 }
 
-
 /* =========================
    CHANGED LINES
 ========================= */
@@ -691,7 +661,6 @@ tr.removed .line-code {
   background: rgba(185, 28, 28, 0.16);
 }
 
-
 /* =========================
    LINE NUMBER COLORS
 ========================= */
@@ -707,7 +676,6 @@ tr.added .line-number {
 tr.removed .line-number {
   color: #d64555;
 }
-
 
 /* =========================
    EMPTY STATE
@@ -765,7 +733,6 @@ tr.removed .line-number {
   line-height: 1.6;
 }
 
-
 /* =========================
    SCROLLBARS
 ========================= */
@@ -788,7 +755,6 @@ tr.removed .line-number {
   background: #64748b;
 }
 
-
 /* =========================
    RESPONSIVE
 ========================= */
@@ -804,8 +770,7 @@ tr.removed .line-number {
   }
 
   .workspace {
-    grid-template-columns:
-      220px minmax(0, 1fr);
+    grid-template-columns: 220px minmax(0, 1fr);
   }
 }
 
@@ -815,8 +780,7 @@ tr.removed .line-number {
   }
 
   .workspace {
-    grid-template-columns:
-      180px minmax(0, 1fr);
+    grid-template-columns: 180px minmax(0, 1fr);
   }
 
   .header-actions {

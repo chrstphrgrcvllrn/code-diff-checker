@@ -1,8 +1,4 @@
-import {
-  diffLines,
-  diffWordsWithSpace
-} from "diff";
-
+import { diffLines, diffWordsWithSpace } from "diff";
 
 /* =========================
    CREATE FILE MAP
@@ -18,22 +14,17 @@ function createFileMap(files) {
   return map;
 }
 
-
 /* =========================
    INLINE DIFF
 ========================= */
 
 function createInlineDiff(oldLine, newLine) {
-  return diffWordsWithSpace(
-    oldLine,
-    newLine
-  ).map((part) => ({
+  return diffWordsWithSpace(oldLine, newLine).map((part) => ({
     value: part.value,
     added: Boolean(part.added),
-    removed: Boolean(part.removed)
+    removed: Boolean(part.removed),
   }));
 }
-
 
 /* =========================
    LINE SIMILARITY
@@ -76,7 +67,6 @@ function lineSimilarity(a, b) {
   return (2 * common) / (a.length + b.length);
 }
 
-
 /*
   Minimum similarity required for two lines
   to be treated as "the same line, modified"
@@ -87,7 +77,6 @@ function lineSimilarity(a, b) {
 */
 
 const SIMILARITY_THRESHOLD = 0.3;
-
 
 /* =========================
    SPLIT DIFF INTO LINES
@@ -101,16 +90,12 @@ function splitLines(value) {
     when the file ends with a newline.
   */
 
-  if (
-    lines.length > 0 &&
-    lines[lines.length - 1] === ""
-  ) {
+  if (lines.length > 0 && lines[lines.length - 1] === "") {
     lines.pop();
   }
 
   return lines;
 }
-
 
 /* =========================
    COUNT LINES
@@ -124,16 +109,11 @@ function countLines(content) {
   return splitLines(content).length;
 }
 
-
 /* =========================
    CREATE UNCHANGED ROW
 ========================= */
 
-function createUnchangedRow(
-  line,
-  leftLineNumber,
-  rightLineNumber
-) {
+function createUnchangedRow(line, leftLineNumber, rightLineNumber) {
   return {
     type: "unchanged",
 
@@ -150,25 +130,16 @@ function createUnchangedRow(
     leftInline: [],
     rightInline: [],
 
-    inline: []
+    inline: [],
   };
 }
-
 
 /* =========================
    CREATE CHANGED ROW
 ========================= */
 
-function createChangedRow(
-  oldLine,
-  newLine,
-  leftLineNumber,
-  rightLineNumber
-) {
-  const inline = createInlineDiff(
-    oldLine,
-    newLine
-  );
+function createChangedRow(oldLine, newLine, leftLineNumber, rightLineNumber) {
+  const inline = createInlineDiff(oldLine, newLine);
 
   return {
     type: "changed",
@@ -189,19 +160,15 @@ function createChangedRow(
     leftInline: inline,
     rightInline: inline,
 
-    inline
+    inline,
   };
 }
-
 
 /* =========================
    CREATE REMOVED ROW
 ========================= */
 
-function createRemovedRow(
-  line,
-  leftLineNumber
-) {
+function createRemovedRow(line, leftLineNumber) {
   return {
     type: "removed",
 
@@ -215,25 +182,21 @@ function createRemovedRow(
       {
         value: line,
         removed: true,
-        added: false
-      }
+        added: false,
+      },
     ],
 
     rightInline: [],
 
-    inline: []
+    inline: [],
   };
 }
-
 
 /* =========================
    CREATE ADDED ROW
 ========================= */
 
-function createAddedRow(
-  line,
-  rightLineNumber
-) {
+function createAddedRow(line, rightLineNumber) {
   return {
     type: "added",
 
@@ -249,14 +212,13 @@ function createAddedRow(
       {
         value: line,
         added: true,
-        removed: false
-      }
+        removed: false,
+      },
     ],
 
-    inline: []
+    inline: [],
   };
 }
-
 
 /* =========================
    ALIGN A CHANGED BLOCK
@@ -277,13 +239,9 @@ function createAddedRow(
    similar exists on the other side.
 ========================= */
 
-function alignChangedBlock(
-  removedLines,
-  addedLines
-) {
+function alignChangedBlock(removedLines, addedLines) {
   const m = removedLines.length;
   const n = addedLines.length;
-
 
   /* =========================
      SIMILARITY MATRIX
@@ -295,13 +253,9 @@ function alignChangedBlock(
     sim.push([]);
 
     for (let j = 0; j < n; j++) {
-      sim[i][j] = lineSimilarity(
-        removedLines[i],
-        addedLines[j]
-      );
+      sim[i][j] = lineSimilarity(removedLines[i], addedLines[j]);
     }
   }
-
 
   /* =========================
      DP TABLE
@@ -311,14 +265,10 @@ function alignChangedBlock(
      added[0..j)
   ========================= */
 
-  const dp = Array.from(
-    { length: m + 1 },
-    () => new Array(n + 1).fill(0)
-  );
+  const dp = Array.from({ length: m + 1 }, () => new Array(n + 1).fill(0));
 
-  const choice = Array.from(
-    { length: m + 1 },
-    () => new Array(n + 1).fill(null)
+  const choice = Array.from({ length: m + 1 }, () =>
+    new Array(n + 1).fill(null),
   );
 
   for (let i = 1; i <= m; i++) {
@@ -331,7 +281,6 @@ function alignChangedBlock(
 
   for (let i = 1; i <= m; i++) {
     for (let j = 1; j <= n; j++) {
-
       const similarity = sim[i - 1][j - 1];
 
       const matchScore =
@@ -342,11 +291,7 @@ function alignChangedBlock(
       const removeScore = dp[i - 1][j];
       const addScore = dp[i][j - 1];
 
-      const best = Math.max(
-        matchScore,
-        removeScore,
-        addScore
-      );
+      const best = Math.max(matchScore, removeScore, addScore);
 
       dp[i][j] = best;
 
@@ -360,7 +305,6 @@ function alignChangedBlock(
     }
   }
 
-
   /* =========================
      TRACEBACK
   ========================= */
@@ -371,27 +315,26 @@ function alignChangedBlock(
   let j = n;
 
   while (i > 0 || j > 0) {
-
     const move = choice[i][j];
 
     if (move === "match") {
       ops.push({
         type: "match",
         removedIndex: i - 1,
-        addedIndex: j - 1
+        addedIndex: j - 1,
       });
       i--;
       j--;
     } else if (move === "remove") {
       ops.push({
         type: "remove",
-        removedIndex: i - 1
+        removedIndex: i - 1,
       });
       i--;
     } else {
       ops.push({
         type: "add",
-        addedIndex: j - 1
+        addedIndex: j - 1,
       });
       j--;
     }
@@ -401,7 +344,6 @@ function alignChangedBlock(
 
   return ops;
 }
-
 
 /* =========================
    PAIR REMOVED + ADDED BLOCKS
@@ -420,65 +362,45 @@ function pairChangedBlocks(
   addedLines,
   changes,
   leftStart,
-  rightStart
+  rightStart,
 ) {
-  const ops = alignChangedBlock(
-    removedLines,
-    addedLines
-  );
+  const ops = alignChangedBlock(removedLines, addedLines);
 
   let leftLineNumber = leftStart;
   let rightLineNumber = rightStart;
 
   for (const op of ops) {
-
     if (op.type === "match") {
-
       changes.push(
         createChangedRow(
           removedLines[op.removedIndex],
           addedLines[op.addedIndex],
           leftLineNumber,
-          rightLineNumber
-        )
+          rightLineNumber,
+        ),
       );
 
       leftLineNumber++;
       rightLineNumber++;
-
     } else if (op.type === "remove") {
-
       changes.push(
-        createRemovedRow(
-          removedLines[op.removedIndex],
-          leftLineNumber
-        )
+        createRemovedRow(removedLines[op.removedIndex], leftLineNumber),
       );
 
       leftLineNumber++;
-
     } else {
-
-      changes.push(
-        createAddedRow(
-          addedLines[op.addedIndex],
-          rightLineNumber
-        )
-      );
+      changes.push(createAddedRow(addedLines[op.addedIndex], rightLineNumber));
 
       rightLineNumber++;
     }
   }
 }
 
-
 /* =========================
    BUILD ALIGNED CHANGES
 ========================= */
 
-function buildAlignedChanges(
-  lineChanges
-) {
+function buildAlignedChanges(lineChanges) {
   const changes = [];
 
   let leftLineNumber = 1;
@@ -486,31 +408,18 @@ function buildAlignedChanges(
 
   let i = 0;
 
-
   while (i < lineChanges.length) {
-
     const change = lineChanges[i];
-
 
     /* =========================
        UNCHANGED BLOCK
     ========================= */
 
     if (!change.added && !change.removed) {
-
-      const lines = splitLines(
-        change.value
-      );
+      const lines = splitLines(change.value);
 
       for (const line of lines) {
-
-        changes.push(
-          createUnchangedRow(
-            line,
-            leftLineNumber,
-            rightLineNumber
-          )
-        );
+        changes.push(createUnchangedRow(line, leftLineNumber, rightLineNumber));
 
         leftLineNumber++;
         rightLineNumber++;
@@ -521,16 +430,12 @@ function buildAlignedChanges(
       continue;
     }
 
-
     /* =========================
        REMOVED BLOCK
     ========================= */
 
     if (change.removed) {
-
-      const removedLines = splitLines(
-        change.value
-      );
+      const removedLines = splitLines(change.value);
 
       let addedLines = [];
 
@@ -539,15 +444,9 @@ function buildAlignedChanges(
         immediately follows this removed block.
       */
 
-      if (
-        i + 1 < lineChanges.length &&
-        lineChanges[i + 1].added
-      ) {
-        addedLines = splitLines(
-          lineChanges[i + 1].value
-        );
+      if (i + 1 < lineChanges.length && lineChanges[i + 1].added) {
+        addedLines = splitLines(lineChanges[i + 1].value);
       }
-
 
       /* =========================
          PAIR THE BLOCKS
@@ -558,9 +457,8 @@ function buildAlignedChanges(
         addedLines,
         changes,
         leftLineNumber,
-        rightLineNumber
+        rightLineNumber,
       );
-
 
       /*
         Both sides advance according
@@ -569,7 +467,6 @@ function buildAlignedChanges(
 
       leftLineNumber += removedLines.length;
       rightLineNumber += addedLines.length;
-
 
       /*
         If an added block was consumed,
@@ -585,17 +482,12 @@ function buildAlignedChanges(
       continue;
     }
 
-
     /* =========================
        ADDED BLOCK
     ========================= */
 
     if (change.added) {
-
-      const addedLines = splitLines(
-        change.value
-      );
-
+      const addedLines = splitLines(change.value);
 
       /*
         This normally happens when the
@@ -604,13 +496,7 @@ function buildAlignedChanges(
       */
 
       for (const line of addedLines) {
-
-        changes.push(
-          createAddedRow(
-            line,
-            rightLineNumber
-          )
-        );
+        changes.push(createAddedRow(line, rightLineNumber));
 
         rightLineNumber++;
       }
@@ -620,77 +506,45 @@ function buildAlignedChanges(
       continue;
     }
 
-
     i++;
   }
 
-
   return changes;
 }
-
 
 /* =========================
    COMPARE FOLDERS
 ========================= */
 
-function compareFolders(
-  leftFolder,
-  rightFolder
-) {
+function compareFolders(leftFolder, rightFolder) {
+  const leftMap = createFileMap(leftFolder.files);
 
-  const leftMap = createFileMap(
-    leftFolder.files
-  );
-
-  const rightMap = createFileMap(
-    rightFolder.files
-  );
-
+  const rightMap = createFileMap(rightFolder.files);
 
   /* =========================
      GET ALL FILE PATHS
   ========================= */
 
-  const allPaths = new Set([
-    ...leftMap.keys(),
-    ...rightMap.keys()
-  ]);
-
+  const allPaths = new Set([...leftMap.keys(), ...rightMap.keys()]);
 
   const files = [];
-
 
   /* =========================
      COMPARE EACH FILE
   ========================= */
 
-  for (
-    const path of [...allPaths].sort()
-  ) {
+  for (const path of [...allPaths].sort()) {
+    const leftFile = leftMap.get(path);
 
-    const leftFile =
-      leftMap.get(path);
-
-    const rightFile =
-      rightMap.get(path);
-
+    const rightFile = rightMap.get(path);
 
     /* =========================
        FILE ADDED
     ========================= */
 
-    if (
-      !leftFile &&
-      rightFile
-    ) {
-
-      const addedRows = splitLines(
-        rightFile.content
-      ).map((line, index) =>
-        createAddedRow(
-          line,
-          index + 1
-        )
+    if (!leftFile && rightFile) {
+      const addedRows = splitLines(rightFile.content).map((line, index) =>
+        createAddedRow(line, index + 1),
       );
 
       files.push({
@@ -707,30 +561,20 @@ function compareFolders(
         stats: {
           added: countLines(rightFile.content),
           removed: 0,
-          changed: 0
-        }
+          changed: 0,
+        },
       });
 
       continue;
     }
 
-
     /* =========================
        FILE REMOVED
     ========================= */
 
-    if (
-      leftFile &&
-      !rightFile
-    ) {
-
-      const removedRows = splitLines(
-        leftFile.content
-      ).map((line, index) =>
-        createRemovedRow(
-          line,
-          index + 1
-        )
+    if (leftFile && !rightFile) {
+      const removedRows = splitLines(leftFile.content).map((line, index) =>
+        createRemovedRow(line, index + 1),
       );
 
       files.push({
@@ -747,31 +591,20 @@ function compareFolders(
         stats: {
           added: 0,
           removed: countLines(leftFile.content),
-          changed: 0
-        }
+          changed: 0,
+        },
       });
 
       continue;
     }
 
-
     /* =========================
        FILE UNCHANGED
     ========================= */
 
-    if (
-      leftFile.content ===
-      rightFile.content
-    ) {
-
-      const unchangedRows = splitLines(
-        leftFile.content
-      ).map((line, index) =>
-        createUnchangedRow(
-          line,
-          index + 1,
-          index + 1
-        )
+    if (leftFile.content === rightFile.content) {
+      const unchangedRows = splitLines(leftFile.content).map((line, index) =>
+        createUnchangedRow(line, index + 1, index + 1),
       );
 
       files.push({
@@ -788,33 +621,24 @@ function compareFolders(
         stats: {
           added: 0,
           removed: 0,
-          changed: 0
-        }
+          changed: 0,
+        },
       });
 
       continue;
     }
 
-
     /* =========================
        FILE CHANGED
     ========================= */
 
-    const lineChanges = diffLines(
-      leftFile.content,
-      rightFile.content
-    );
-
+    const lineChanges = diffLines(leftFile.content, rightFile.content);
 
     /* =========================
        BUILD ALIGNED ROWS
     ========================= */
 
-    const changes =
-      buildAlignedChanges(
-        lineChanges
-      );
-
+    const changes = buildAlignedChanges(lineChanges);
 
     /* =========================
        SAVE FILE
@@ -841,9 +665,8 @@ function compareFolders(
 
         return totals;
       },
-      { added: 0, removed: 0, changed: 0 }
+      { added: 0, removed: 0, changed: 0 },
     );
-
 
     files.push({
       path,
@@ -856,90 +679,63 @@ function compareFolders(
 
       changes,
 
-      stats
+      stats,
     });
   }
-
 
   /* =========================
      SUMMARY
   ========================= */
 
   const summary = {
-
     total: files.length,
 
-    added: files.filter(
-      (file) =>
-        file.status === "added"
-    ).length,
+    added: files.filter((file) => file.status === "added").length,
 
-    removed: files.filter(
-      (file) =>
-        file.status === "removed"
-    ).length,
+    removed: files.filter((file) => file.status === "removed").length,
 
-    changed: files.filter(
-      (file) =>
-        file.status === "changed"
-    ).length,
+    changed: files.filter((file) => file.status === "changed").length,
 
-    unchanged: files.filter(
-      (file) =>
-        file.status === "unchanged"
-    ).length,
+    unchanged: files.filter((file) => file.status === "unchanged").length,
 
-    linesAdded: files.reduce(
-      (sum, file) =>
-        sum + (file.stats?.added || 0),
-      0
-    ),
+    linesAdded: files.reduce((sum, file) => sum + (file.stats?.added || 0), 0),
 
     linesRemoved: files.reduce(
-      (sum, file) =>
-        sum + (file.stats?.removed || 0),
-      0
+      (sum, file) => sum + (file.stats?.removed || 0),
+      0,
     ),
 
     linesChanged: files.reduce(
-      (sum, file) =>
-        sum + (file.stats?.changed || 0),
-      0
-    )
+      (sum, file) => sum + (file.stats?.changed || 0),
+      0,
+    ),
   };
-
 
   /* =========================
      RETURN RESULT
   ========================= */
 
   return {
-
     leftFolder: {
       name: leftFolder.name,
 
-      fileCount:
-        leftFolder.files.length
+      fileCount: leftFolder.files.length,
     },
 
     rightFolder: {
       name: rightFolder.name,
 
-      fileCount:
-        rightFolder.files.length
+      fileCount: rightFolder.files.length,
     },
 
     files,
 
-    summary
+    summary,
   };
 }
-
 
 /* =========================
    EXPORT
 ========================= */
 
-export {
-  compareFolders
-};
+export { compareFolders };

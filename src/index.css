@@ -37,8 +37,8 @@
 
   /* --accent-hover: #1d4ed8; */
 
-  --accent:#ea1468;
-  --accent-hover:#a13560;
+  --accent: #ea1468;
+  --accent-hover: #a13560;
   --added-text: #6ee7a0;
   --added-bg: #123d29;
   --removed-text: #ff8b98;
@@ -46,7 +46,6 @@
   --changed-text: #f3c867;
   --changed-bg: #453512;
 }
-
 
 /* =========================
    LIGHT MODE
@@ -77,8 +76,8 @@
   /* --accent: #2563eb;
   --accent-hover: #1d4ed8; */
 
-    --accent:#ea1468;
-  --accent-hover:#a13560;
+  --accent: #ea1468;
+  --accent-hover: #a13560;
   --added-text: #166534;
   --added-bg: #dcfce7;
   --removed-text: #b91c1c;
@@ -86,7 +85,6 @@
   --changed-text: #92400e;
   --changed-bg: #fef3c7;
 }
-
 
 /* =========================
    GLOBAL
@@ -121,7 +119,6 @@ button {
   cursor: pointer;
 }
 
-
 /* =========================
    APP
 ========================= */
@@ -136,7 +133,6 @@ button {
   background: var(--bg-main);
   color: var(--text-primary);
 }
-
 
 /* =========================
    HEADER
@@ -172,7 +168,6 @@ button {
   gap: 8px;
   flex-wrap: wrap;
 }
-
 
 /* =========================
    BUTTONS
@@ -219,7 +214,6 @@ button {
   cursor: not-allowed;
 }
 
-
 /* =========================
    SUMMARY BUTTON
 ========================= */
@@ -243,7 +237,6 @@ button {
   opacity: 0.45;
   cursor: not-allowed;
 }
-
 
 /* =========================
    SUMMARY PANEL
@@ -365,12 +358,7 @@ button {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-family:
-    ui-monospace,
-    SFMono-Regular,
-    Menlo,
-    Consolas,
-    monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   color: var(--text-secondary);
 }
 
@@ -382,7 +370,6 @@ button {
   flex-shrink: 0;
 }
 
-
 /* =========================
    SEARCH BAR (ALWAYS VISIBLE)
 ========================= */
@@ -391,7 +378,7 @@ button {
   padding: 10px 20px;
   border-bottom: 1px solid var(--border);
   /* background: var(--bg-secondary); */
-  flex:1;
+  flex: 1;
 }
 
 .global-search {
@@ -493,12 +480,7 @@ button {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-family:
-    ui-monospace,
-    SFMono-Regular,
-    Menlo,
-    Consolas,
-    monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 12px;
   color: var(--text-secondary);
 }
@@ -525,10 +507,7 @@ button {
   min-width: 32px;
   text-align: right;
   color: var(--text-number);
-  font-family:
-    "SFMono-Regular",
-    Consolas,
-    monospace;
+  font-family: "SFMono-Regular", Consolas, monospace;
   font-size: 11px;
 }
 
@@ -537,10 +516,7 @@ button {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: pre;
-  font-family:
-    "SFMono-Regular",
-    Consolas,
-    monospace;
+  font-family: "SFMono-Regular", Consolas, monospace;
   font-size: 12px;
   color: var(--text-code);
 }
@@ -563,7 +539,6 @@ button {
   font-style: italic;
 }
 
-
 /* =========================
    SEARCH JUMP FLASH
 ========================= */
@@ -582,7 +557,6 @@ button {
   }
 }
 
-
 /* =========================
    ERROR
 ========================= */
@@ -595,19 +569,18 @@ button {
   font-size: 12px;
 }
 
-
 /* =========================
    FOLDER BAR
 ========================= */
 
 .folder-bar {
-min-height: 62px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 10px;
-    padding: 10px 20px 10px 20px;
-    border-bottom: 1px solid var(--border);
-    background: var(--bg-secondary);
+  min-height: 62px;
+  display: grid;
+  grid-template-columns: 0.43fr 1fr 1fr;
+  gap: 10px;
+  padding: 10px 20px 10px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-secondary);
 }
 
 .folder-info {
@@ -675,7 +648,6 @@ min-height: 62px;
   color: #a78bfa;
 }
 
-
 /* =========================
    WORKSPACE
 ========================= */
@@ -688,7 +660,6 @@ min-height: 62px;
   grid-template-columns: 280px minmax(0, 1fr);
   overflow: hidden;
 }
-
 
 /* =========================
    SIDEBAR
@@ -787,15 +758,9 @@ min-height: 62px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-family:
-    ui-monospace,
-    SFMono-Regular,
-    Menlo,
-    Consolas,
-    monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 11px;
 }
-
 
 /* =========================
    STATUS
@@ -840,7 +805,6 @@ min-height: 62px;
   font-size: 11px;
 }
 
-
 /* =========================
    VIEWER
 ========================= */
@@ -860,7 +824,6 @@ min-height: 62px;
   flex-direction: column;
 }
 
-
 /* =========================
    DIFF TOOLBAR
 ========================= */
@@ -879,12 +842,7 @@ min-height: 62px;
 }
 
 .diff-toolbar strong {
-  font-family:
-    ui-monospace,
-    SFMono-Regular,
-    Menlo,
-    Consolas,
-    monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 
 .toolbar-status {
@@ -914,7 +872,6 @@ min-height: 62px;
   color: var(--text-muted);
   background: var(--border);
 }
-
 
 /* =========================
    CODE COLUMNS
@@ -957,7 +914,6 @@ min-height: 62px;
   font-weight: 700;
 }
 
-
 /* =========================
    CODE SCROLL
 ========================= */
@@ -972,7 +928,6 @@ min-height: 62px;
   scrollbar-color: var(--border-light) var(--bg-secondary);
 }
 
-
 /* =========================
    CODE TABLE
 ========================= */
@@ -982,12 +937,7 @@ min-height: 62px;
   min-width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
-  font-family:
-    "SFMono-Regular",
-    Consolas,
-    "Liberation Mono",
-    Menlo,
-    monospace;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
   font-size: 12px;
   line-height: 1.55;
 }
@@ -995,7 +945,6 @@ min-height: 62px;
 .code-scroll tr {
   height: 19px;
 }
-
 
 /* =========================
    LINE NUMBERS
@@ -1012,7 +961,6 @@ min-height: 62px;
   border-right: 1px solid var(--border);
 }
 
-
 /* =========================
    CODE TEXT
 ========================= */
@@ -1024,7 +972,6 @@ min-height: 62px;
   color: var(--text-code);
   background: transparent;
 }
-
 
 /* =========================
    DIFF LINE ROWS
@@ -1044,7 +991,6 @@ min-height: 62px;
   white-space: pre;
   color: var(--text-code);
 }
-
 
 /* =========================
    WHOLE-LINE TINT
@@ -1072,7 +1018,6 @@ min-height: 62px;
   );
 }
 
-
 /* =========================
    LINE NUMBER COLORS
 ========================= */
@@ -1088,7 +1033,6 @@ min-height: 62px;
 .diff-line.removed .line-number {
   color: #d64555;
 }
-
 
 /* =========================
    INLINE HIGHLIGHT
@@ -1106,7 +1050,6 @@ min-height: 62px;
   border-radius: 2px;
   text-decoration: line-through;
 }
-
 
 /* =========================
    MINIMAP
@@ -1158,7 +1101,6 @@ min-height: 62px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.25);
 }
 
-
 /* =========================
    EMPTY STATE
 ========================= */
@@ -1202,7 +1144,6 @@ min-height: 62px;
   line-height: 1.6;
 }
 
-
 /* =========================
    SCROLLBARS
 ========================= */
@@ -1224,7 +1165,6 @@ min-height: 62px;
 *::-webkit-scrollbar-thumb:hover {
   background: #64748b;
 }
-
 
 /* =========================
    RESPONSIVE
@@ -1314,7 +1254,7 @@ min-height: 62px;
   display: inline-flex;
   align-items: center;
   flex-shrink: 0;
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .bmc-button img {
@@ -1370,4 +1310,43 @@ min-height: 62px;
   95% {
     transform: translateY(0) rotate(2deg);
   }
+}
+
+/* =========================
+   FILE TREE - CHANGES-ONLY TOGGLE
+
+   Append to index.css (matches the
+   existing --text-* / --border /
+   --bg-input theme variables)
+========================= */
+
+.file-filter-toggle {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  margin-top: 9px;
+
+  padding: 6px 2px;
+
+  cursor: pointer;
+
+  color: var(--text-secondary);
+  font-size: 11px;
+  user-select: none;
+}
+
+.file-filter-toggle input[type="checkbox"] {
+  width: 13px;
+  height: 13px;
+
+  margin: 0;
+
+  accent-color: var(--accent);
+
+  cursor: pointer;
+}
+
+.file-filter-toggle:hover {
+  color: var(--text-primary);
 }

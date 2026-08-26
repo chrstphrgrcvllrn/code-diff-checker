@@ -1,20 +1,12 @@
-import {
-  useState,
-  useEffect,
-  useRef
-} from "react";
+import { useState, useEffect, useRef } from "react";
 
-function DiffMinimap({
-  rows,
-  containerRef
-}) {
+function DiffMinimap({ rows, containerRef }) {
   const minimapRef = useRef(null);
 
   const [viewport, setViewport] = useState({
     top: 0,
-    height: 100
+    height: 100,
   });
-
 
   /* =========================
      TRACK VISIBLE VIEWPORT
@@ -27,7 +19,6 @@ function DiffMinimap({
   ========================= */
 
   useEffect(() => {
-
     const container = containerRef.current;
 
     if (!container) {
@@ -35,12 +26,7 @@ function DiffMinimap({
     }
 
     function updateViewport() {
-
-      const {
-        scrollTop,
-        scrollHeight,
-        clientHeight
-      } = container;
+      const { scrollTop, scrollHeight, clientHeight } = container;
 
       if (scrollHeight <= clientHeight) {
         setViewport({ top: 0, height: 100 });
@@ -48,44 +34,32 @@ function DiffMinimap({
       }
 
       setViewport({
-        top:
-          (scrollTop / scrollHeight) * 100,
+        top: (scrollTop / scrollHeight) * 100,
 
-        height:
-          (clientHeight / scrollHeight) * 100
+        height: (clientHeight / scrollHeight) * 100,
       });
     }
 
     updateViewport();
 
-    container.addEventListener(
-      "scroll",
-      updateViewport
-    );
+    container.addEventListener("scroll", updateViewport);
 
-    const resizeObserver =
-      new ResizeObserver(updateViewport);
+    const resizeObserver = new ResizeObserver(updateViewport);
 
     resizeObserver.observe(container);
 
     return () => {
-      container.removeEventListener(
-        "scroll",
-        updateViewport
-      );
+      container.removeEventListener("scroll", updateViewport);
 
       resizeObserver.disconnect();
     };
-
   }, [containerRef, rows]);
-
 
   /* =========================
      CLICK TO JUMP
   ========================= */
 
   function handleClick(event) {
-
     const container = containerRef.current;
     const minimap = minimapRef.current;
 
@@ -93,23 +67,15 @@ function DiffMinimap({
       return;
     }
 
-    const rect =
-      minimap.getBoundingClientRect();
+    const rect = minimap.getBoundingClientRect();
 
-    const clickRatio =
-      (event.clientY - rect.top) /
-      rect.height;
+    const clickRatio = (event.clientY - rect.top) / rect.height;
 
     const targetScrollTop =
-      clickRatio * container.scrollHeight -
-      container.clientHeight / 2;
+      clickRatio * container.scrollHeight - container.clientHeight / 2;
 
-    container.scrollTop = Math.max(
-      0,
-      targetScrollTop
-    );
+    container.scrollTop = Math.max(0, targetScrollTop);
   }
-
 
   const totalRows = rows.length || 1;
 
@@ -120,24 +86,19 @@ function DiffMinimap({
       onClick={handleClick}
       title="Click to jump to that part of the file"
     >
-
       {rows.map((row, index) => {
-
         if (row.type === "unchanged") {
           return null;
         }
 
-        const topPercent =
-          (index / totalRows) * 100;
+        const topPercent = (index / totalRows) * 100;
 
         return (
           <div
             key={index}
-            className={
-              `diff-minimap-tick ${row.type}`
-            }
+            className={`diff-minimap-tick ${row.type}`}
             style={{
-              top: `${topPercent}%`
+              top: `${topPercent}%`,
             }}
           />
         );
@@ -147,11 +108,9 @@ function DiffMinimap({
         className="diff-minimap-viewport"
         style={{
           top: `${viewport.top}%`,
-          height:
-            `${Math.max(viewport.height, 2)}%`
+          height: `${Math.max(viewport.height, 2)}%`,
         }}
       />
-
     </div>
   );
 }

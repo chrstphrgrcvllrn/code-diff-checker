@@ -3,24 +3,16 @@ function DiffLine({
   content,
   type = "",
   highlighted = false,
-  rowIndex
+  rowIndex,
 }) {
   return (
     <div
-      className={
-        `diff-line ${type} ${
-          highlighted ? "search-match" : ""
-        }`
-      }
+      className={`diff-line ${type} ${highlighted ? "search-match" : ""}`}
       data-row-index={rowIndex}
     >
-      <span className="line-number">
-        {lineNumber}
-      </span>
+      <span className="line-number">{lineNumber}</span>
 
-      <span className="line-content">
-        {content}
-      </span>
+      <span className="line-content">{content}</span>
     </div>
   );
 }

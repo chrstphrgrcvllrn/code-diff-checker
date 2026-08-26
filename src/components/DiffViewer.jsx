@@ -1,8 +1,4 @@
-import {
-  useEffect,
-  useRef,
-  useState
-} from "react";
+import { useEffect, useRef, useState } from "react";
 
 import DiffLine from "./DiffLine";
 import DiffMinimap from "./DiffMinimap";
@@ -21,42 +17,23 @@ import DiffMinimap from "./DiffMinimap";
 */
 
 function renderInline(row, side) {
-
   if (row.type === "unchanged") {
-    return side === "left"
-      ? row.left
-      : row.right;
+    return side === "left" ? row.left : row.right;
   }
 
-  const parts =
-    side === "left"
-      ? row.leftInline
-      : row.rightInline;
+  const parts = side === "left" ? row.leftInline : row.rightInline;
 
   return parts
-    .filter((part) =>
-      side === "left"
-        ? !part.added
-        : !part.removed
-    )
+    .filter((part) => (side === "left" ? !part.added : !part.removed))
     .map((part, index) => {
-
       if (!part.added && !part.removed) {
-        return (
-          <span key={index}>
-            {part.value}
-          </span>
-        );
+        return <span key={index}>{part.value}</span>;
       }
 
       return (
         <span
           key={index}
-          className={
-            part.added
-              ? "inline-added"
-              : "inline-removed"
-          }
+          className={part.added ? "inline-added" : "inline-removed"}
         >
           {part.value}
         </span>
@@ -65,35 +42,24 @@ function renderInline(row, side) {
 }
 
 function DiffViewer({ file, scrollTarget }) {
-  const leftRef =
-    useRef(null);
+  const leftRef = useRef(null);
 
-  const rightRef =
-    useRef(null);
+  const rightRef = useRef(null);
 
-  const syncing =
-    useRef(false);
+  const syncing = useRef(false);
 
-  const [language, setLanguage] =
-    useState("plaintext");
+  const [language, setLanguage] = useState("plaintext");
 
-  const [flashedRowIndex, setFlashedRowIndex] =
-    useState(null);
+  const [flashedRowIndex, setFlashedRowIndex] = useState(null);
 
   useEffect(() => {
-    setLanguage(
-      detectLanguage(
-        file.path
-      )
-    );
+    setLanguage(detectLanguage(file.path));
   }, [file]);
 
   useEffect(() => {
-    const left =
-      leftRef.current;
+    const left = leftRef.current;
 
-    const right =
-      rightRef.current;
+    const right = rightRef.current;
 
     if (!left || !right) {
       return;
@@ -106,18 +72,13 @@ function DiffViewer({ file, scrollTarget }) {
 
       syncing.current = true;
 
-      right.scrollTop =
-        left.scrollTop;
+      right.scrollTop = left.scrollTop;
 
-      right.scrollLeft =
-        left.scrollLeft;
+      right.scrollLeft = left.scrollLeft;
 
-      requestAnimationFrame(
-        () => {
-          syncing.current =
-            false;
-        }
-      );
+      requestAnimationFrame(() => {
+        syncing.current = false;
+      });
     }
 
     function syncRight() {
@@ -127,80 +88,49 @@ function DiffViewer({ file, scrollTarget }) {
 
       syncing.current = true;
 
-      left.scrollTop =
-        right.scrollTop;
+      left.scrollTop = right.scrollTop;
 
-      left.scrollLeft =
-        right.scrollLeft;
+      left.scrollLeft = right.scrollLeft;
 
-      requestAnimationFrame(
-        () => {
-          syncing.current =
-            false;
-        }
-      );
+      requestAnimationFrame(() => {
+        syncing.current = false;
+      });
     }
 
-    left.addEventListener(
-      "scroll",
-      syncLeft
-    );
+    left.addEventListener("scroll", syncLeft);
 
-    right.addEventListener(
-      "scroll",
-      syncRight
-    );
+    right.addEventListener("scroll", syncRight);
 
     return () => {
-      left.removeEventListener(
-        "scroll",
-        syncLeft
-      );
+      left.removeEventListener("scroll", syncLeft);
 
-      right.removeEventListener(
-        "scroll",
-        syncRight
-      );
+      right.removeEventListener("scroll", syncRight);
     };
   }, [file]);
 
   useEffect(() => {
-
-    if (
-      !scrollTarget ||
-      scrollTarget.path !== file.path
-    ) {
+    if (!scrollTarget || scrollTarget.path !== file.path) {
       return;
     }
 
-    const selector =
-      `[data-row-index="${scrollTarget.rowIndex}"]`;
+    const selector = `[data-row-index="${scrollTarget.rowIndex}"]`;
 
-    const leftEl =
-      leftRef.current?.querySelector(
-        selector
-      );
+    const leftEl = leftRef.current?.querySelector(selector);
 
-    const rightEl =
-      rightRef.current?.querySelector(
-        selector
-      );
+    const rightEl = rightRef.current?.querySelector(selector);
 
     (leftEl || rightEl)?.scrollIntoView({
       block: "center",
-      behavior: "smooth"
+      behavior: "smooth",
     });
 
-    setFlashedRowIndex(
-      scrollTarget.rowIndex
-    );
+    setFlashedRowIndex(scrollTarget.rowIndex);
 
     const timeout = setTimeout(() => {
       setFlashedRowIndex(null);
     }, 1800);
 
     return () => clearTimeout(timeout);
-
   }, [scrollTarget, file]);
 
   /*
@@ -214,126 +144,63 @@ function DiffViewer({ file, scrollTarget }) {
 
   return (
     <div className="diff-viewer">
-
       <div className="diff-toolbar">
-
         <div>
-          <strong>
-            {file.path}
-          </strong>
+          <strong>{file.path}</strong>
 
-          <span
-            className={
-              `toolbar-status ${file.status}`
-            }
-          >
-            {file.status}
-          </span>
+          <span className={`toolbar-status ${file.status}`}>{file.status}</span>
         </div>
 
-        <span>
-          {language}
-        </span>
-
+        <span>{language}</span>
       </div>
 
       <div className="diff-columns">
-
         <div className="code-panel">
+          <div className="code-panel-header">LEFT</div>
 
-          <div className="code-panel-header">
-            LEFT
-          </div>
-
-          <div
-            ref={leftRef}
-            className="code-scroll"
-          >
-
+          <div ref={leftRef} className="code-scroll">
             {rows.map((row, index) => (
               <DiffLine
                 key={index}
                 rowIndex={index}
-                highlighted={
-                  flashedRowIndex === index
-                }
-                lineNumber={
-                  row.leftLineNumber ?? ""
-                }
-                type={
-                  row.type === "added"
-                    ? "placeholder"
-                    : row.type
-                }
+                highlighted={flashedRowIndex === index}
+                lineNumber={row.leftLineNumber ?? ""}
+                type={row.type === "added" ? "placeholder" : row.type}
                 content={
-                  row.leftLineNumber === null
-                    ? ""
-                    : renderInline(row, "left")
+                  row.leftLineNumber === null ? "" : renderInline(row, "left")
                 }
               />
             ))}
-
           </div>
-
         </div>
 
         <div className="code-panel">
+          <div className="code-panel-header">RIGHT</div>
 
-          <div className="code-panel-header">
-            RIGHT
-          </div>
-
-          <div
-            ref={rightRef}
-            className="code-scroll"
-          >
-
+          <div ref={rightRef} className="code-scroll">
             {rows.map((row, index) => (
               <DiffLine
                 key={index}
                 rowIndex={index}
-                highlighted={
-                  flashedRowIndex === index
-                }
-                lineNumber={
-                  row.rightLineNumber ?? ""
-                }
-                type={
-                  row.type === "removed"
-                    ? "placeholder"
-                    : row.type
-                }
+                highlighted={flashedRowIndex === index}
+                lineNumber={row.rightLineNumber ?? ""}
+                type={row.type === "removed" ? "placeholder" : row.type}
                 content={
-                  row.rightLineNumber === null
-                    ? ""
-                    : renderInline(row, "right")
+                  row.rightLineNumber === null ? "" : renderInline(row, "right")
                 }
               />
             ))}
-
           </div>
-
         </div>
 
-        <DiffMinimap
-          rows={rows}
-          containerRef={rightRef}
-        />
-
+        <DiffMinimap rows={rows} containerRef={rightRef} />
       </div>
-
     </div>
   );
 }
 
-function detectLanguage(
-  filename
-) {
-  const extension =
-    filename
-      .split(".")
-      .pop()
-      .toLowerCase();
+function detectLanguage(filename) {
+  const extension = filename.split(".").pop().toLowerCase();
 
   const languages = {
     js: "JavaScript",
@@ -355,13 +222,10 @@ function detectLanguage(
     rb: "Ruby",
     sql: "SQL",
     sh: "Shell",
-    md: "Markdown"
+    md: "Markdown",
   };
 
-  return (
-    languages[extension] ||
-    "Plain Text"
-  );
+  return languages[extension] || "Plain Text";
 }
 
 export default DiffViewer;

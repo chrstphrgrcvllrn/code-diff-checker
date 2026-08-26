@@ -21,10 +21,7 @@ import { readDirectory } from "./folderReader";
     pretending the data is fresh.
 */
 
-export async function rescanFolder(
-  folder,
-  label
-) {
+export async function rescanFolder(folder, label) {
   if (!folder) {
     return folder;
   }
@@ -32,41 +29,29 @@ export async function rescanFolder(
   if (!folder.handle) {
     throw new Error(
       `${label} folder can't be rescanned automatically in this browser. ` +
-      `Click "Change ${label} Folder" to pick it again with the latest files.`
+        `Click "Change ${label} Folder" to pick it again with the latest files.`,
     );
   }
 
   if (folder.handle.queryPermission) {
-    const permission =
-      await folder.handle.queryPermission(
-        { mode: "read" }
-      );
+    const permission = await folder.handle.queryPermission({ mode: "read" });
 
     if (permission !== "granted") {
-      const requested =
-        await folder.handle.requestPermission(
-          { mode: "read" }
-        );
+      const requested = await folder.handle.requestPermission({ mode: "read" });
 
       if (requested !== "granted") {
-        throw new Error(
-          `Permission to read the ${label} folder was denied.`
-        );
+        throw new Error(`Permission to read the ${label} folder was denied.`);
       }
     }
   }
 
   const files = [];
 
-  await readDirectory(
-    folder.handle,
-    "",
-    files
-  );
+  await readDirectory(folder.handle, "", files);
 
   return {
     name: folder.handle.name,
     files,
-    handle: folder.handle
+    handle: folder.handle,
   };
 }

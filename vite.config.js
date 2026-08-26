@@ -3,10 +3,10 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-// 
-  base: "/code-diff-checker/",
+  //
+  // base: "/code-diff-checker/",
 
   server: {
-    port: 5173
-  }
+    port: 5173,
+  },
 });
