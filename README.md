@@ -4,6 +4,8 @@ A lightweight **folder comparison and code diff tool** for quickly reviewing dif
 
 Code Diff Checker lets you select two folders, compare their files, search across the results, and inspect changes side by side.
 
+**Live:** [chrstphrgrcvllrn.github.io/code-diff-checker](https://chrstphrgrcvllrn.github.io/code-diff-checker/)
+
 ## Screenshot
 
 ![Code Diff Checker](./screenshots/code-diff-checker.png)

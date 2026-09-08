@@ -1,5 +1,7 @@
 import { useState, useMemo, useRef, useEffect } from "react";
 
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+
 const MAX_MATCHES_PER_FILE = 5;
 const MAX_TOTAL_RESULTS = 200;
 
@@ -106,7 +108,7 @@ function GlobalSearch({ comparison, onNavigate }) {
   return (
     <div className="global-search" ref={containerRef}>
       <div className="global-search-input-wrap">
-        <span className="global-search-icon">🔍</span>
+        <MagnifyingGlassIcon className="global-search-icon" />
 
         <input
           type="text"

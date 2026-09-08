@@ -403,7 +403,9 @@ button {
 
 .global-search-icon {
   flex-shrink: 0;
-  font-size: 12px;
+  width: 16px;
+  height: 16px;
+  stroke-width: 1.8;
   opacity: 0.7;
 }
 
